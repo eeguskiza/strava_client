@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Register Page</title>
     <style>
         body {
             margin: 0;
@@ -46,6 +46,19 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        button {
+            padding: 10px 20px;
+            background: #006400; /* Verde oscuro */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto; /* Centrado */
+            display: block;
+        }
+        button:hover {
+            background: #004d00;
+        }
         .radio-label {
             font-size: 14px;
             margin-bottom: 10px;
@@ -79,35 +92,22 @@
             width: auto;
             height: 25px; /* Tamaño fijo para los logos */
         }
-        button {
-            padding: 10px 20px;
-            background: #006400; /* Verde oscuro */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 20px auto; /* Centrado */
-            display: block;
-        }
-        button:hover {
-            background: #004d00;
-        }
         .right {
             width: 50%;
             background: url('/images/run.jpg') no-repeat center center;
             background-size: cover;
         }
-        .register-link {
+        .login-link {
             margin-top: 15px;
             text-align: center;
             font-size: 14px;
         }
-        .register-link a {
+        .login-link a {
             text-decoration: none;
             color: #006400;
             font-weight: bold;
         }
-        .register-link a:hover {
+        .login-link a:hover {
             color: #004d00;
         }
     </style>
@@ -115,17 +115,33 @@
 <body>
 <div class="container">
     <div class="left">
-        <h1>Welcome Back!</h1>
-        <form th:action="@{/api/auth/login}" method="post">
+        <h1>Create Your Account</h1>
+        <form th:action="@{/api/auth/register}" method="post">
             <div class="form-group">
-                <label for="email">Account email</label>
+                <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="birthDate">Date of Birth</label>
+                <input type="date" id="birthDate" name="birthDate" required>
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" step="0.1" id="weight" name="weight" required>
+            </div>
+            <div class="form-group">
+                <label for="height">Height (cm)</label>
+                <input type="number" step="0.1" id="height" name="height" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <label class="radio-label">Verify with:</label>
+            <label class="radio-label">Register with:</label>
             <div class="radio-row">
                 <div class="radio-item">
                     <input type="radio" id="google" name="service" value="google" required>
@@ -138,10 +154,10 @@
                     <label for="facebook">Facebook</label>
                 </div>
             </div>
-            <button type="submit">Let's go!</button>
+            <button type="submit">Register</button>
         </form>
-        <div class="register-link">
-            <p>Don’t have an account? <a href="/register">Click here</a></p>
+        <div class="login-link">
+            <p>Already have an account? <a href="/login">Click here</a></p>
         </div>
     </div>
     <div class="right"></div>
