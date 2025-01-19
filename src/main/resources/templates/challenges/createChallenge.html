@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Challenge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+        form {
+            width: 50%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        form input, form button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #45a049;
+        }
+        button.cancel {
+            background-color: #f44336;
+        }
+        button.cancel:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+<h1>Create a New Challenge</h1>
+
+<form th:action="@{/challenges/create}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="sport">Sport:</label>
+    <input type="text" id="sport" name="sport" required>
+
+    <label for="targetDistance">Target Distance (km):</label>
+    <input type="number" id="targetDistance" name="targetDistance" step="0.1" required>
+
+    <label for="targetTime">Target Time (hours):</label>
+    <input type="number" id="targetTime" name="targetTime" step="0.1" required>
+
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" required>
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" required>
+
+    <button type="submit">Create Challenge</button>
+    <button type="button" class="cancel" onclick="history.back()">Cancel</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #0073e6;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .sessions {
+            background-color: #ff6f61;
+            color: white;
+        }
+
+        .challenges {
+            background-color: #f7b731;
+            color: white;
+        }
+
+        .ai {
+            background-color: #4cd137;
+            color: white;
+        }
+
+        .settings {
+            background-color: #8e44ad;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Welcome, <span th:text="${userName}">User</span>!</h1>
+<div class="buttons">
+    <button class="button sessions" onclick="location.href='/sessions'">Sessions</button>
+    <button class="button challenges" onclick="location.href='/challenges'">Challenges</button>
+    <button class="button ai" onclick="location.href='/ai'">AI</button>
+    <button class="button settings" onclick="location.href='/settings'">Settings</button>
+</div>
+</body>
+
+</html>

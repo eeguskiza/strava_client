@@ -1,174 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
     <style>
+        /* General Styles */
         body {
+            font-family: 'Merriweather', serif;
             margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        p {
+            font-family: 'Merriweather', serif;
+            font-weight: 300;
             line-height: 1.6;
-            color: #333;
+            margin: 10px 0;
         }
 
-        header {
-            background: #f0f4fc;
-            padding: 50px 20px;
-            text-align: center;
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 10;
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            color: #1d3b8f;
+        .navbar a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            margin: 0 15px;
         }
 
-        header p {
-            font-size: 1rem;
-            color: #3e4c68;
+        .navbar a:hover {
+            color: #0056b3;
         }
 
-        header button {
-            padding: 10px 20px;
-            background: #4a90e2;
+        .section {
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .section:nth-child(even) {
+            background-color: #f0f0f0;
+        }
+
+        .hero {
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
             color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        header button:hover {
-            background: #3a78c2;
+            text-align: center;
+            animation-delay: 0s;
         }
 
         .features {
-            display: flex;
-            justify-content: space-between;
-            padding: 50px 20px;
-            background: white;
-            text-align: center;
-        }
-
-        .features .feature {
-            flex: 1;
-            padding: 0 20px;
-        }
-
-        .features .feature img {
-            width: 80px;
-            margin-bottom: 20px;
-        }
-
-        .features .feature h3 {
-            color: #1d3b8f;
-        }
-
-        .features .feature p {
-            color: #5a6d89;
-            font-size: 0.9rem;
-        }
-
-        .about {
-            padding: 50px 20px;
-            background: #f0f4fc;
-            text-align: center;
-        }
-
-        .about h2 {
-            color: #1d3b8f;
-            margin-bottom: 20px;
-        }
-
-        .about p {
-            color: #5a6d89;
-            font-size: 1rem;
+            animation-delay: 0.3s;
         }
 
         .testimonials {
-            display: flex;
-            justify-content: space-between;
-            padding: 50px 20px;
-            background: white;
+            animation-delay: 0.6s;
         }
 
-        .testimonials .testimonial {
-            flex: 1;
-            padding: 0 20px;
-            text-align: center;
-            font-style: italic;
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
         }
 
-        .testimonials .testimonial h4 {
-            margin-top: 10px;
-            color: #1d3b8f;
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
         }
 
-        .testimonials .testimonial p {
-            color: #5a6d89;
+        .hero button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            color: #2193b0;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        footer {
-            padding: 20px;
-            background: #1d3b8f;
-            text-align: center;
+        .hero button:hover {
+            background-color: #0056b3;
             color: white;
         }
 
-        footer p {
-            margin: 0;
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .features img {
+            max-width: 100px;
+            margin: 0 auto 20px;
+        }
+
+        .testimonials {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .testimonials blockquote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
-<header>
-    <h1>Track. Achieve. Share. Repeat.</h1>
-    <p>Unleash your potential and make every effort count with our app.</p>
-    <button>Start Your Journey</button>
+<header class="navbar">
+    <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="/login" style="color: #2193b0; font-weight: bold;">Login/Register</a>
 </header>
 
-<section class="features">
-    <div class="feature">
-        <img src="track-icon.png" alt="Track Icon">
-        <h3>Track Your Sessions</h3>
-        <p>Monitor every step, ride, or swim and analyze your performance.</p>
-    </div>
-    <div class="feature">
-        <img src="challenge-icon.png" alt="Challenge Icon">
-        <h3>Participate in Challenges</h3>
-        <p>Join exciting challenges and compete with friends and peers.</p>
-    </div>
-    <div class="feature">
-        <img src="coach-icon.png" alt="Coach Icon">
-        <h3>AI-Based Coach</h3>
-        <p>Get personalized training plans and insights tailored to your goals.</p>
+<section id="home" class="section hero">
+    <h1>Track. Achieve. Share. Repeat.</h1>
+    <p>Unleash your potential and make every effort count with our app.</p>
+    <button onclick="scrollToSection('features')">Start Your Journey</button>
+</section>
+
+<section id="features" class="section">
+    <h2>Main Features</h2>
+    <div class="features">
+        <div>
+            <img src="/images/feature1.png" alt="Track Icon">
+            <h3>Track Your Sessions</h3>
+            <p>Monitor your performance with ease.</p>
+        </div>
+        <div>
+            <img src="/images/feature2.png" alt="Challenge Icon">
+            <h3>Participate in Challenges</h3>
+            <p>Compete with friends and peers.</p>
+        </div>
+        <div>
+            <img src="/images/feature3.png" alt="Coach Icon">
+            <h3>AI-Based Coach</h3>
+            <p>Get personalized training plans tailored to your goals.</p>
+        </div>
     </div>
 </section>
 
-<section class="about">
-    <h2>Discover the Power of Your Potential</h2>
-    <p>Our app provides unparalleled insights to help you maximize your performance. Whether you're training for a marathon or just staying active, we're here to guide you every step of the way.</p>
-</section>
-
-<section class="testimonials">
-    <div class="testimonial">
-        <p>"This app transformed the way I track my progress and stay motivated."</p>
-        <h4>- Usue Arianne</h4>
-    </div>
-    <div class="testimonial">
-        <p>"The challenges keep me going and the AI coach makes training a breeze."</p>
-        <h4>- Helena Gartener</h4>
-    </div>
-    <div class="testimonial">
-        <p>"It's never been easier to compete with friends and smash my goals."</p>
-        <h4>- Andoni Eguskiza</h4>
+<section id="testimonials" class="section">
+    <h2>What People Are Saying</h2>
+    <div class="testimonials">
+        <blockquote>
+            "This app transformed the way I track my progress and stay motivated." - Usue Arianne
+        </blockquote>
+        <blockquote>
+            "The challenges keep me going and the AI coach makes training a breeze." - Helena Gartener
+        </blockquote>
+        <blockquote>
+            "It's never been easier to compete with friends and smash my goals." - Andoni Eguskiza
+        </blockquote>
     </div>
 </section>
 
-<footer>
-    <p>&copy; 2025 Strava Client. All rights reserved.</p>
+<footer class="footer">
+    <p>&copy; 2025 Strava Deusto. All rights reserved.</p>
 </footer>
+
+<script>
+    function scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
 </body>
+
 </html>

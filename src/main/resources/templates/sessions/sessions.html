@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sessions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #0073e6;
+            color: white;
+        }
+
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .create-button, .back-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .create-button:hover, .back-button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Sessions</h1>
+</header>
+<div>
+    <h2>Active Sessions</h2>
+    <div th:each="training : ${activeSessions}">
+        <p>
+            <strong th:text="'Sport: ' + ${training.sport}"></strong><br>
+            Distance: <span th:text="${training.distance} + ' km'"></span><br>
+            Start Date: <span th:text="${training.startDate}"></span><br>
+            Duration: <span th:text="${training.duration} + ' min'"></span>
+        </p>
+    </div>
+</div>
+
+<div>
+    <h2>History</h2>
+    <div th:each="training : ${historySessions}">
+        <p>
+            <strong th:text="'Sport: ' + ${training.sport}"></strong><br>
+            Distance: <span th:text="${training.distance} + ' km'"></span><br>
+            Start Date: <span th:text="${training.startDate}"></span><br>
+            Duration: <span th:text="${training.duration} + ' min'"></span>
+        </p>
+    </div>
+</div>
+<!-- Buttons -->
+<button class="create-button" onclick="location.href='/sessions/create'">Create Session</button>
+<button class="back-button" onclick="history.back()">Go Back</button>
+</div>
+</body>
+</html>
