@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sessions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
         }
 
         header {
@@ -15,6 +18,7 @@
             padding: 20px;
             background-color: #0073e6;
             color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .container {
@@ -23,41 +27,71 @@
             max-width: 800px;
         }
 
-        .section {
-            margin-bottom: 30px;
-        }
-
         h2 {
             color: #333;
+            margin-top: 30px;
+            font-size: 1.5em;
+            text-align: center;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
+        .session-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        li {
-            padding: 10px;
+        .session-card {
             background: white;
-            border: 1px solid #ddd;
-            margin-bottom: 5px;
-            border-radius: 5px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-left: 5px solid #0073e6;
         }
 
-        .create-button, .back-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        .session-card strong {
+            font-size: 1.1em;
+            color: #0073e6;
+        }
+
+        .session-card span {
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 12px 20px;
             font-size: 1em;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 500;
+            color: white;
+            background-color: #0073e6;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .create-button:hover, .back-button:hover {
+        .button:hover {
             background-color: #005bb5;
+            transform: translateY(-2px);
+        }
+
+        .button.back {
+            background-color: #6c757d;
+        }
+
+        .button.back:hover {
+            background-color: #565e64;
         }
     </style>
 </head>
@@ -65,32 +99,32 @@
 <header>
     <h1>Sessions</h1>
 </header>
-<div>
+<div class="container">
     <h2>Active Sessions</h2>
-    <div th:each="training : ${activeSessions}">
-        <p>
-            <strong th:text="'Sport: ' + ${training.sport}"></strong><br>
-            Distance: <span th:text="${training.distance} + ' km'"></span><br>
-            Start Date: <span th:text="${training.startDate}"></span><br>
-            Duration: <span th:text="${training.duration} + ' min'"></span>
-        </p>
+    <div class="session-list">
+        <div class="session-card" th:each="training : ${activeSessions}">
+            <strong th:text="'Sport: ' + ${training.sport}"></strong>
+            <span>Distance: <span th:text="${training.distance} + ' km'"></span></span>
+            <span>Start Date: <span th:text="${training.startDate}"></span></span>
+            <span>Duration: <span th:text="${training.duration} + ' min'"></span></span>
+        </div>
     </div>
-</div>
 
-<div>
     <h2>History</h2>
-    <div th:each="training : ${historySessions}">
-        <p>
-            <strong th:text="'Sport: ' + ${training.sport}"></strong><br>
-            Distance: <span th:text="${training.distance} + ' km'"></span><br>
-            Start Date: <span th:text="${training.startDate}"></span><br>
-            Duration: <span th:text="${training.duration} + ' min'"></span>
-        </p>
+    <div class="session-list">
+        <div class="session-card" th:each="training : ${historySessions}">
+            <strong th:text="'Sport: ' + ${training.sport}"></strong>
+            <span>Distance: <span th:text="${training.distance} + ' km'"></span></span>
+            <span>Start Date: <span th:text="${training.startDate}"></span></span>
+            <span>Duration: <span th:text="${training.duration} + ' min'"></span></span>
+        </div>
     </div>
-</div>
-<!-- Buttons -->
-<button class="create-button" onclick="location.href='/sessions/create'">Create Session</button>
-<button class="back-button" onclick="history.back()">Go Back</button>
+
+    <!-- Buttons -->
+    <div class="buttons">
+        <button class="button" onclick="location.href='/sessions/create'">Create Session</button>
+        <button class="button back" onclick="history.back()">Go Back</button>
+    </div>
 </div>
 </body>
 </html>

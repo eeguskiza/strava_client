@@ -1,8 +1,8 @@
-package com.deusto.strava_client.dto;
+package com.deusto.strava_client.data;
 
 import java.util.Date;
 
-public class TrainingSessionDTO {
+public class TrainingSession {
     private Long id;
     private String sport;
     private float distance;
@@ -10,9 +10,9 @@ public class TrainingSessionDTO {
     private float duration;
 
     // Constructor
-	public TrainingSessionDTO() {
+	public TrainingSession() {
 	}
-    public TrainingSessionDTO(Long id, String sport, float distance, Date startDate, float duration) {
+    public TrainingSession(Long id, String sport, float distance, Date startDate, float duration) {
         this.id = id;
         this.sport = sport;
         this.distance = distance;

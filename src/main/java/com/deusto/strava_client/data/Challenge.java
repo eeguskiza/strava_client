@@ -1,8 +1,8 @@
-package com.deusto.strava_client.dto;
+package com.deusto.strava_client.data;
 
 import java.util.Date;
 
-public class ChallengeDTO {
+public class Challenge {
     private Long id;
     private String creatorName;
     private String name;
@@ -13,7 +13,7 @@ public class ChallengeDTO {
     private Date endDate;
 
     // Constructor
-    public ChallengeDTO(String name, String sport, float targetDistance, float targetTime, Date startDate, Date endDate) {
+    public Challenge(String name, String sport, float targetDistance, float targetTime, Date startDate, Date endDate) {
         this.name = name;
         this.sport = sport;
         this.targetDistance = targetDistance;

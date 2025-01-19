@@ -1,10 +1,10 @@
-package com.deusto.strava_client.dto;
+package com.deusto.strava_client.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class UserDTO {
+public class User {
     private String email;
     private String name;
 
@@ -19,10 +19,10 @@ public class UserDTO {
     private int restHeartRate;
 
     // Constructor vacío para la deserialización
-    public UserDTO() {}
+    public User() {}
 
     // Constructor con todos los campos
-    public UserDTO(String email, String name, Date birthDate, String password, double weight, double height, String service) {
+    public User(String email, String name, Date birthDate, String password, double weight, double height, String service) {
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;

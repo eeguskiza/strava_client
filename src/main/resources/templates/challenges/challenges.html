@@ -2,83 +2,192 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
         }
-        h1 {
-            color: #333;
+
+        header {
             text-align: center;
-            margin-top: 20px;
+            padding: 20px;
+            background-color: #28a745; /* Verde principal */
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        table {
-            width: 80%;
+
+        h1 {
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .container {
             margin: 20px auto;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
             border-collapse: collapse;
             background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
+
         table th, table td {
-            border: 1px solid #ddd;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
+            border-bottom: 1px solid #ddd;
         }
+
         table th {
-            background-color: #f7f7f7;
-            font-weight: bold;
+            background-color: #28a745; /* Verde principal */
+            color: white;
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: 0.9em;
         }
+
         table tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
         }
+
         table tr:hover {
-            background-color: #eaeaea;
+            background-color: #e8f5e9; /* Verde claro */
         }
-        a button {
-            display: inline-block;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin: 20px auto;
-            background-color: #007BFF;
+
+        table td {
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .join-button {
+            padding: 8px 15px;
+            background-color: #007BFF; /* Azul principal */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
         }
-        a button:hover {
-            background-color: #0056b3;
+
+        .join-button:hover {
+            background-color: #0056b3; /* Azul oscuro */
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            color: white;
+            background-color: #6c757d; /* Botón gris */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #565e64; /* Gris más oscuro */
+        }
+
+        .create-button {
+            background-color: #28a745; /* Verde */
+        }
+
+        .create-button:hover {
+            background-color: #218838; /* Verde oscuro */
         }
     </style>
 </head>
 <body>
-<h1>Active Challenges</h1>
+<header>
+    <h1>Challenges</h1>
+</header>
+<div class="container">
 
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Sport</th>
-        <th>Target Distance</th>
-        <th>Target Time</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="challenge : ${activeChallenges}">
-        <td th:text="${challenge.name}">Challenge Name</td>
-        <td th:text="${challenge.sport}">Sport</td>
-        <td th:text="${challenge.targetDistance}">Distance</td>
-        <td th:text="${challenge.targetTime}">Time</td>
-        <td th:text="${#dates.format(challenge.startDate, 'yyyy-MM-dd')}">Start Date</td>
-        <td th:text="${#dates.format(challenge.endDate, 'yyyy-MM-dd')}">End Date</td>
-    </tr>
-    </tbody>
-</table>
+    <!-- Global Active Challenges -->
+    <h2>Global Active Challenges</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Sport</th>
+            <th>Target Distance</th>
+            <th>Target Time</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="challenge : ${globalChallenges}">
+            <td th:text="${challenge.name}">Challenge Name</td>
+            <td th:text="${challenge.sport}">Sport</td>
+            <td th:text="${challenge.targetDistance}">Distance</td>
+            <td th:text="${challenge.targetTime}">Time</td>
+            <td th:text="${#dates.format(challenge.startDate, 'yyyy-MM-dd')}">Start Date</td>
+            <td th:text="${#dates.format(challenge.endDate, 'yyyy-MM-dd')}">End Date</td>
+            <td>
+                <form th:action="@{/challenges/join}" method="post">
+                    <input type="hidden" th:name="challengeId" th:value="${challenge.id}" />
+                    <button type="submit" class="join-button">Join</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-<a href="/challenges/create">
-    <button>Create Challenge</button>
-</a>
+    <!-- My Active Challenges -->
+    <h2>My Active Challenges</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Sport</th>
+            <th>Target Distance</th>
+            <th>Target Time</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="challenge : ${myChallenges}">
+            <td th:text="${challenge.name}">Challenge Name</td>
+            <td th:text="${challenge.sport}">Sport</td>
+            <td th:text="${challenge.targetDistance}">Distance</td>
+            <td th:text="${challenge.targetTime}">Time</td>
+            <td th:text="${#dates.format(challenge.startDate, 'yyyy-MM-dd')}">Start Date</td>
+            <td th:text="${#dates.format(challenge.endDate, 'yyyy-MM-dd')}">End Date</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Buttons -->
+    <div class="button-container">
+        <a href="/challenges/create" class="button create-button">Create Challenge</a>
+        <button class="button" onclick="history.back()">Go Back</button>
+    </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #4e54c8, #8f94fb); /* Fondo moderno */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #fff;
+    }
+
+    .container {
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.6); /* Fondo negro translúcido */
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 600px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 30px;
+    }
+
+    .assistant-card {
+        display: flex;
+        justify-content: space-around;
+        gap: 30px;
+        margin-top: 20px;
+    }
+
+    .assistant {
+        background-color: #fff;
+        color: #333;
+        text-align: center;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        width: 45%;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .assistant:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .assistant img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+    .assistant h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .assistant p {
+        font-size: 1em;
+        color: #666;
+    }
+</style>
+
+</head>
+<body>
+<div class="assistant-card">
+    <!-- E.D.I.T.H -->
+    <div class="assistant" onclick="startChat('edith')">
+        <img src="/images/google-assistant.png" alt="EDITH">
+        <h2>E.D.I.T.H</h2>
+        <p>Powered by Gemini</p>
+    </div>
+    <!-- F.R.I.D.A.Y -->
+    <div class="assistant" onclick="startChat('friday')">
+        <img src="/images/jarvis.png" alt="FRIDAY">
+        <h2>F.R.I.D.A.Y</h2>
+        <p>Powered by GPT</p>
+    </div>
+</div>
+<script>
+    function startChat(assistant) {
+        // Aseguramos que el asistente es válido y redirigimos a la página de chat
+        if (assistant === 'edith' || assistant === 'friday') {
+            // Redirige al endpoint /chat con el asistente seleccionado como parámetro
+            window.location.href = `/chat?assistant=${assistant}`;
+        } else {
+            // Muestra un error en caso de que el asistente sea inválido
+            alert("Invalid assistant selected. Please choose a valid option.");
+        }
+    }
+</script>
+
+</body>
+</html>

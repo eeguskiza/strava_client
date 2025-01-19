@@ -1,11 +1,11 @@
-package com.deusto.strava_client.dto;
+package com.deusto.strava_client.data;
 
-public class CredentialsDTO {
+public class Credentials {
     private String email;
     private String password;
     private String service;
 
-    public CredentialsDTO(String email, String password, String service) {
+    public Credentials(String email, String password, String service) {
         this.email = email;
         this.password = password;
         this.service = service;
