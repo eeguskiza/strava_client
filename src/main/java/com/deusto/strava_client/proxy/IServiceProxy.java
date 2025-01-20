@@ -28,4 +28,5 @@ public interface IServiceProxy {
 
     void joinChallenge(String token, String challengeId);
 
+    String sendMessageToGPT(String message);
 }

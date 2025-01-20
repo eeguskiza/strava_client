@@ -1,10 +1,10 @@
 package com.deusto.strava_client.proxy;
 
 import com.deusto.strava_client.data.*;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +20,8 @@ public class ServiceProxy implements IServiceProxy {
     private static final String AUTH_URL = "http://localhost:8080/api/auth";
     private static final String CHALLENGES_URL = "http://localhost:8080/api/challenges";
     private static final String SESSIONS_URL = "http://localhost:8080/api/sessions";
+
+
 
     /**
      * Authentication Methods
@@ -102,12 +104,11 @@ public class ServiceProxy implements IServiceProxy {
     }
 
 
-
     @Override
     public void createChallenge(String token, Challenge challenge) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", token);
+            headers.set("token", token);
             HttpEntity<Challenge> entity = new HttpEntity<>(challenge, headers);
             restTemplate.postForEntity(CHALLENGES_URL, entity, Void.class);
         } catch (Exception e) {
@@ -115,18 +116,24 @@ public class ServiceProxy implements IServiceProxy {
         }
     }
 
+
     @Override
     public void joinChallenge(String token, String challengeId) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", token);
+            headers.set("token", token); // Agregar el encabezado de autenticación
             HttpEntity<Void> entity = new HttpEntity<>(headers);
-            String url = CHALLENGES_URL + "/join/" + challengeId; // Endpoint del servidor
+
+            // Construir correctamente el URL con el parámetro que espera el servidor
+            String url = CHALLENGES_URL + "/enrollment?challengeId=" + challengeId; // Usa el mismo nombre de parámetro que el servidor espera
+
+            // Realizar la solicitud POST
             restTemplate.exchange(url, HttpMethod.POST, entity, Void.class);
         } catch (Exception e) {
             throw new RuntimeException("Error joining challenge: " + e.getMessage());
         }
     }
+
 
 
     /**
@@ -157,4 +164,7 @@ public class ServiceProxy implements IServiceProxy {
             throw new RuntimeException("Error creando la sesión: " + e.getMessage());
         }
     }
+
+
+
 }

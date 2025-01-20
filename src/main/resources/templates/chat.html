@@ -161,17 +161,30 @@
         // Resetear el input
         input.value = '';
 
-        // Simular respuesta del bot
-        setTimeout(() => {
-            const botMessage = document.createElement('div');
-            botMessage.classList.add('message', 'bot');
-            botMessage.innerHTML = `<div class="message-content">I received your message: "${message}".</div>`;
-            chatBody.appendChild(botMessage);
+        // Llamar al backend para procesar el mensaje con GPT
+        fetch('/chat/gpt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({ message }),
+        })
+            .then((response) => response.text())
+            .then((botResponse) => {
+                // Mostrar el mensaje del bot
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot');
+                botMessage.innerHTML = `<div class="message-content">${botResponse}</div>`;
+                chatBody.appendChild(botMessage);
 
-            // Scroll automático
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 1000);
+                // Scroll automático
+                chatBody.scrollTop = chatBody.scrollHeight;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
+
 </script>
 </body>
 </html>

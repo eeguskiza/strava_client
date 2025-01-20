@@ -1,83 +1,407 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <meta charset="UTF-8"/>
+    <title>Home - Strava Client</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        /* ---------- GLOBAL STYLES (unchanged) ---------- */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #f9f9f9;
         }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #f9f9f9, #dddddd);
             color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* ---------- HEADER / WELCOME SECTION (unchanged) ---------- */
+        .header {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .avatar-container {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #ccc;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+        }
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        /* ---------- STATISTICS SECTION (unchanged) ---------- */
+        .statistics {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .stats-item {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        .stats-item h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        /* ---------- GOAL TRACKING SECTION (unchanged) ---------- */
+        .goals-section {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .goals-section h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .goal-label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .progress-bar {
+            background-color: #eee;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #ff6f61;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+        /* ---------- CHART SECTION (unchanged) ---------- */
+        .chart-section {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .chart-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+            justify-content: center;
+            height: 200px;
+            margin-top: 1.5rem;
+        }
+        .bar {
+            width: 30px;
+            background-color: #8e44ad;
+            transition: 0.3s ease;
+        }
+        .bar:hover {
+            background-color: #6f3485;
+        }
+        /* ---------- MOTIVATION SECTION (unchanged) ---------- */
+        .motivation-section {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .motivation-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+        .quote-box, .tip-box {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 6px;
+            width: 100%;
+        }
+        .quote-box p, .tip-box p {
+            font-style: italic;
+            color: #555;
         }
 
-        .buttons {
+        /* ---------- TWO-COLUMN BUTTON LAYOUT ---------- */
+        .buttons-two-column {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            justify-content: space-between; /* left col and right col on opposite sides */
+            margin: 2rem 0;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column; /* stack the two buttons vertically */
+            gap: 1.5rem;
+            flex: 1;
         }
 
         .button {
-            padding: 15px 30px;
-            font-size: 1.2em;
+            font-size: 1.1rem;
             font-weight: bold;
             text-transform: uppercase;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            min-width: 150px;
         }
 
         .button:hover {
-            background-color: #0073e6;
-            color: white;
-            transform: scale(1.1);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
+        .button:active {
+            transform: scale(0.98);
+            box-shadow: none;
         }
 
         .sessions {
-            background-color: #ff6f61;
-            color: white;
+            background-color: #2d73bd; /* Red */
         }
-
         .challenges {
-            background-color: #f7b731;
-            color: white;
+            background-color: #4cd137; /* Yellow */
         }
-
         .ai {
-            background-color: #4cd137;
-            color: white;
+            background-color: #7546b8; /* Green */
+        }
+        .settings {
+            background-color: #757575; /* Purple */
         }
 
-        .settings {
-            background-color: #8e44ad;
-            color: white;
+        /* ---------- LIVE FEED (unchanged) ---------- */
+        .live-feed {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            overflow: hidden;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            padding: 0.5rem 1rem;
+        }
+        .feed-container {
+            white-space: nowrap;
+            animation: ticker 10s linear infinite;
+        }
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* ---------- RESPONSIVE DESIGN ---------- */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .button {
+                font-size: 1rem;
+            }
+            .bar-chart {
+                height: 150px;
+            }
+            .buttons-two-column {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+            .column {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .column {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
-
 <body>
-<h1>Welcome, <span th:text="${userName}">User</span>!</h1>
-<div class="buttons">
-    <button class="button sessions" onclick="location.href='/sessions'">Sessions</button>
-    <button class="button challenges" onclick="location.href='/challenges'">Challenges</button>
-    <button class="button ai" onclick="location.href='/ai'">AI</button>
-    <button class="button settings" onclick="location.href='/settings'">Settings</button>
-</div>
-</body>
 
+<!-- HEADER -->
+<div class="header">
+    <div class="avatar-container">
+        <!-- Replace with the user's actual avatar if available -->
+        <img src="images/pesas.png" alt="User Avatar" />
+    </div>
+    <h1>Welcome, <span th:text="${userName}">User</span>!</h1>
+</div>
+
+
+<div class="container">
+    <!-- STATISTICS SECTION -->
+    <div class="statistics">
+        <h2>Your Activity Stats</h2>
+        <div class="stats-grid">
+            <div class="stats-item">
+                <h3>Total Distance</h3>
+                <p><span th:text="${totalDistance}">0</span> km</p>
+            </div>
+            <div class="stats-item">
+                <h3>Weekly Sessions</h3>
+                <p><span th:text="${weeklySessionsCount}">0</span></p>
+            </div>
+            <div class="stats-item">
+                <h3>Personal Best (5k)</h3>
+                <p>
+                    <span th:text="${#numbers.formatDecimal(personalBest5k, 0, 2)}">0</span> min
+                </p>
+            </div>
+            <div class="stats-item">
+                <h3>Challenges Completed</h3>
+                <p><span th:text="${challengesCompleted}">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUTTONS (TWO-COLUMN LAYOUT) -->
+    <div class="buttons-two-column">
+        <!-- Left Column -->
+        <div class="column">
+            <button class="button challenges" onclick="location.href='/challenges'">
+                Challenges
+            </button>
+            <button class="button sessions" onclick="location.href='/sessions'">
+                Sessions
+            </button>
+        </div>
+        <!-- Right Column -->
+        <div class="column">
+            <button class="button settings" onclick="location.href='/settings'">
+                Settings
+            </button>
+            <button class="button ai" onclick="location.href='/ai'">
+                Assistants
+            </button>
+        </div>
+    </div>
+
+    <!-- GOALS SECTION -->
+    <div class="goals-section">
+        <h2>Weekly Distance Goal</h2>
+        <p>You’ve covered
+            <span th:text="${weeklyDistance}">0</span> km
+            out of 50 km this week!
+        </p>
+        <div class="progress-bar">
+            <div class="progress-fill"
+                 th:style="'width:' + ${weeklyGoalProgress} + '%;'">
+            </div>
+        </div>
+    </div>
+
+    <!-- CHART SECTION -->
+    <div class="chart-section">
+        <h2>Recent Performance</h2>
+        <p>Session intensity over the past week:</p>
+        <div id="bar-chart" class="bar-chart">
+            <!-- Bars will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        function loadChartData() {
+            fetch('/api/performance') // Endpoint que devuelve los datos en JSON
+                .then(response => response.json())
+                .then(data => {
+                    const chart = document.getElementById('bar-chart');
+                    chart.innerHTML = ''; // Limpiar contenido previo
+                    data.forEach(session => {
+                        const bar = document.createElement('div');
+                        bar.className = 'bar';
+                        bar.style.height = session.intensity + '%';
+                        bar.style.backgroundColor = session.color;
+                        bar.title = `${session.name}: ${session.intensity}%`;
+                        chart.appendChild(bar);
+                    });
+                })
+                .catch(error => console.error('Error loading chart data:', error));
+        }
+
+        // Cargar los datos cuando se cargue la página
+        window.onload = loadChartData;
+    </script>
+
+
+
+    <!-- MOTIVATION SECTION -->
+    <div class="motivation-section">
+        <h2>Stay Motivated</h2>
+        <div class="motivation-content">
+            <div class="quote-box">
+                <p>"The only bad workout is the one that didn't happen."</p>
+            </div>
+            <div class="tip-box">
+                <p>Tip: Add interval sprints to your run to improve endurance!</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- LIVE FEED (OPTIONAL) -->
+<div class="live-feed">
+    <div class="feed-container">
+        Recent Activity: Erik completed the "10K Challenge" |
+        Maria joined the "Weekly Yoga Session" |
+        New Global Challenge: "Marathon Madness" starting soon!
+    </div>
+</div>
+
+</body>
 </html>

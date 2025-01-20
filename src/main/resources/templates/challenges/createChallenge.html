@@ -1,82 +1,144 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Challenge</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
         }
-        h1 {
-            color: #333;
+
+        header {
             text-align: center;
-            margin-top: 20px;
-        }
-        form {
-            width: 50%;
-            margin: 20px auto;
             padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #28a745; /* Verde */
+            color: white;
         }
-        form label {
+
+        .form-container {
+            margin: 40px auto;
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
             display: block;
-            margin-bottom: 10px;
+            margin: 10px 0 5px;
             font-weight: bold;
         }
-        form input, form button {
+
+        input, select {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 20px;
+            padding: 12px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
+            border-radius: 5px;
+            font-size: 14px;
         }
-        form button {
-            background-color: #4CAF50;
-            color: white;
+
+        input:focus, select:focus {
+            border-color: #28a745;
+            outline: none;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
-        form button:hover {
-            background-color: #45a049;
+
+        .create-button {
+            background-color: #28a745;
+            color: white;
         }
-        button.cancel {
-            background-color: #f44336;
+
+        .create-button:hover {
+            background-color: #218838;
         }
-        button.cancel:hover {
-            background-color: #e53935;
+
+        .cancel-button {
+            background-color: #6c757d;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .cancel-button:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
-<h1>Create a New Challenge</h1>
+<header>
+    <h1>Create a New Challenge</h1>
+</header>
+<div class="form-container">
+    <form th:action="@{/challenges/create}" method="post">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter challenge name" required>
 
-<form th:action="@{/challenges/create}" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+        <label for="sport">Sport</label>
+        <select id="sport" name="sport" required>
+            <option value="" disabled selected>Select sport</option>
+            <option value="Running">Running</option>
+            <option value="Cycling">Cycling</option>
+            <option value="Swimming">Swimming</option>
+            <option value="Walking">Walking</option>
+            <option value="Hiking">Hiking</option>
+            <option value="Rowing">Rowing</option>
+            <option value="Yoga">Yoga</option>
+            <option value="Weightlifting">Weightlifting</option>
+            <option value="CrossFit">CrossFit</option>
+            <option value="Tennis">Tennis</option>
+            <option value="Basketball">Basketball</option>
+            <option value="Football">Football (Soccer)</option>
+            <option value="Rugby">Rugby</option>
+            <option value="Baseball">Baseball</option>
+            <option value="Climbing">Climbing</option>
+            <option value="Skiing">Skiing</option>
+            <option value="Snowboarding">Snowboarding</option>
+            <option value="Skating">Skating</option>
+            <option value="Surfing">Surfing</option>
+            <option value="Boxing">Boxing</option>
+            <option value="Martial Arts">Martial Arts</option>
+            <option value="Golf">Golf</option>
+            <option value="Badminton">Badminton</option>
+            <option value="Table Tennis">Table Tennis</option>
+            <option value="Volleyball">Volleyball</option>
+            <option value="Dancing">Dancing</option>
+            <option value="Horse Riding">Horse Riding</option>
+            <option value="Kayaking">Kayaking</option>
+            <option value="Scuba Diving">Scuba Diving</option>
+            <option value="Snorkeling">Snorkeling</option>
+            <option value="Other">Other</option>
+        </select>
 
-    <label for="sport">Sport:</label>
-    <input type="text" id="sport" name="sport" required>
+        <label for="targetDistance">Target Distance (km)</label>
+        <input type="number" id="targetDistance" name="targetDistance" step="0.1" placeholder="Enter target distance" required>
 
-    <label for="targetDistance">Target Distance (km):</label>
-    <input type="number" id="targetDistance" name="targetDistance" step="0.1" required>
+        <label for="targetTime">Target Time (hours)</label>
+        <input type="number" id="targetTime" name="targetTime" step="0.1" placeholder="Enter target time" required>
 
-    <label for="targetTime">Target Time (hours):</label>
-    <input type="number" id="targetTime" name="targetTime" step="0.1" required>
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate" required>
 
-    <label for="startDate">Start Date:</label>
-    <input type="date" id="startDate" name="startDate" required>
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate" required>
 
-    <label for="endDate">End Date:</label>
-    <input type="date" id="endDate" name="endDate" required>
-
-    <button type="submit">Create Challenge</button>
-    <button type="button" class="cancel" onclick="history.back()">Cancel</button>
-</form>
+        <button type="submit" class="create-button">Create Challenge</button>
+        <button type="button" class="cancel-button" onclick="history.back()">Cancel</button>
+    </form>
+</div>
 </body>
 </html>
